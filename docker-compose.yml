@@ -3,7 +3,7 @@ services:
   tp-link-api-bridge:
     build: .
     container_name: tp-link-api-bridge
-    image: docker pull ghcr.io/cmer81/tp-link-modem-sms-api:latest
+    image: ghcr.io/cmer81/tp-link-modem-sms-api:latest
     volumes:
       - ./config.json:/home/node/tp-link-modem-router-master/config.json
     ports: 
