@@ -27,7 +27,7 @@ You can also use Docker to run this project. The Docker image is available at `g
 docker pull ghcr.io/cmer81/tp-link-modem-sms-api:latest
 
 # Run the Docker container with volume mounting for config.json
-docker run -d --name tp-link-modem-sms-api -p 3000:3000 -v $(pwd)/config.json:/home/node/tp-link-modem-router-master/config.json ghcr.io/cmer81/tp-link-modem-sms-api:latest
+docker run -d --name tp-link-modem-sms-api -p 3800:3800 -v $(pwd)/config.json:/home/node/tp-link-modem-router-master/config.json ghcr.io/cmer81/tp-link-modem-sms-api:latest
 ```
 
 ## Docker Compose Installation
@@ -90,22 +90,22 @@ docker-compose up -d
     "login": "admin",
     "password": "myrouterpassword",
     "api_listen_host": "127.0.0.1",
-    "api_listen_port": 3000,
+    "api_listen_port": 3800,
     "api_users": { "apiuser": "pleasechangeme" }
 }
 
-# Explore API on http://127.0.0.1:3000
+# Explore API on http://127.0.0.1:3800
 
 # Sample queries
 # ==============
 # List received SMS
-curl --user apiuser:pleasechangeme -X GET "http://127.0.0.1:3000/api/v1/sms/inbox" -H  "accept: application/json"
+curl --user apiuser:pleasechangeme -X GET "http://127.0.0.1:3800/api/v1/sms/inbox" -H  "accept: application/json"
 
 # Sending SMS application/x-www-form-urlencoded style
-curl --user apiuser:pleasechangeme -d to=0123456789 -d content=test1 -X POST "http://127.0.0.1:3000/api/v1/sms/outbox" -H  "accept: application/json"
+curl --user apiuser:pleasechangeme -d to=0123456789 -d content=test1 -X POST "http://127.0.0.1:3800/api/v1/sms/outbox" -H  "accept: application/json"
 
 # Sending SMS application/json style
-curl --user apiuser:pleasechangeme -d '{"to":"0123456789", "content":"test2"}' -H 'Content-Type: application/json' -X POST "http://127.0.0.1:3000/api/v1/sms/outbox" -H  "accept: application/json"
+curl --user apiuser:pleasechangeme -d '{"to":"0123456789", "content":"test2"}' -H 'Content-Type: application/json' -X POST "http://127.0.0.1:3800/api/v1/sms/outbox" -H  "accept: application/json"
 ```
 
 ### Receive SMS with SMS cat
@@ -119,7 +119,7 @@ curl --user apiuser:pleasechangeme -d '{"to":"0123456789", "content":"test2"}' -
 
 # Sample config file for sms-cat.js
 {
-    "api_client_url": "http://localhost:3000",
+    "api_client_url": "http://localhost:3800",
     "api_client_login": "apiuser",
     "api_client_password": "pleasechangeme",
     "api_client_polling_delay": 5000
@@ -134,7 +134,7 @@ curl --user apiuser:pleasechangeme -d '{"to":"0123456789", "content":"test2"}' -
 
 # Sample config file for smtp-gateway.js
 {
-    "sms_gateway_url": "http://localhost:3000",
+    "sms_gateway_url": "http://localhost:3800",
     "sms_gateway_login": "apiuser",
     "sms_gateway_password": "pleasechangeme",
     "sms_gateway_domain": "smtp2sms.local",
