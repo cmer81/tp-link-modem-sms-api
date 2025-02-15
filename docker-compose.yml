@@ -6,6 +6,6 @@ services:
     volumes:
       - ./config.json:/home/node/tp-link-modem-router-master/config.json
     ports: 
-      - "3000:3000"
+      - "3800:3800"
     restart: unless-stopped
     init: true
