@@ -16,7 +16,31 @@ You need `nodejs` and `yarn`. Install them first.
 ```bash
 # clone this repository and execute to install required dependencies
 yarn install
-``` 
+```
+
+## Docker Installation
+
+You can also use Docker to run this project. The Docker image is available at `ghcr.io/cmer81/tp-link-modem-sms-api:latest`.
+
+```bash
+# Pull the Docker image
+docker pull ghcr.io/cmer81/tp-link-modem-sms-api:latest
+
+# Run the Docker container with volume mounting for config.json
+docker run -d --name tp-link-modem-sms-api -p 3000:3000 -v $(pwd)/config.json:/home/node/tp-link-modem-router-master/config.json ghcr.io/cmer81/tp-link-modem-sms-api:latest
+```
+
+## Docker Compose Installation
+
+You can also use Docker Compose to run this project. The `docker-compose.yml` file is provided in this repository.
+
+```bash
+# Pull the Docker image
+docker-compose pull
+
+# Run the Docker container with Docker Compose
+docker-compose up -d
+```
 
 ## Usage
 
@@ -49,7 +73,6 @@ yarn install
     "login": "admin",
     "password": "myrouterpassword"
 }
-
 ```
 
 ### REST API Bridge
@@ -125,7 +148,6 @@ curl --user apiuser:pleasechangeme -d '{"to":"0123456789", "content":"test2"}' -
 curl -vv smtp://127.0.0.1:1025 --mail-rcpt 123456789@smtp2sms.local --upload-file <(echo && echo -n "Hello world from curl")
 ```
 
-```
 *   Trying 127.0.0.1:1025...
   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
                                  Dload  Upload   Total   Spent    Left  Speed
@@ -195,4 +217,32 @@ I can offer no guarantees about the following projects
 * https://github.com/McMlok/DomoticzToRouterSmsBot
 * https://github.com/jonscheiding/tplink-vpn-ddns
 
+## Docker Compose Documentation
 
+The `docker-compose.yml` file is configured to run the TP-Link Modem SMS API bridge. Here is the documentation for the `docker-compose.yml` file:
+
+```yaml
+version: "2.2"
+services:
+  tp-link-api-bridge:
+    build: .
+    container_name: tp-link-api-bridge
+    volumes:
+      - ./config.json:/home/node/tp-link-modem-router-master/config.json
+    ports:
+      - "3800:3800"
+    restart: unless-stopped
+    init: true
+```
+
+### Explanation
+
+- **version**: Specifies the version of the Docker Compose file format.
+- **services**: Defines the services to be run.
+  - **tp-link-api-bridge**: The name of the service.
+    - **build**: Specifies the build context for the Docker image.
+    - **container_name**: The name of the container.
+    - **volumes**: Mounts the `config.json` file from the host to the container.
+    - **ports**: Maps port 3800 on the host to port 3800 on the container.
+    - **restart**: Specifies the restart policy for the container.
+    - **init**: Enables the init system for the container.
